@@ -9,15 +9,11 @@ The system evaluates coupons deterministically using eligibility rules, discount
 
 ## Tech Stack
 
-Language: Python 3.10+
-
-Framework: FastAPI
-
-Validation: Pydantic
-
-Storage: In-memory (Python list)
-
-Server: Uvicorn
+- **Language**: Python 3.10+
+- **Framework**: FastAPI
+- **Validation**: Pydantic
+- **Storage**: In-memory (Python list)
+- **Server**: Uvicorn
 
 ## Features
 
@@ -29,24 +25,24 @@ Applies max discount caps for percentage coupons
 
 Selects the best coupon using:
 
-Highest discount
-
-Earliest expiry date
-
-Lexicographical coupon code
+- Highest discount
+- Earliest expiry date
+- Lexicographical coupon code
 
 No database required (as per assignment)
 
-API Endpoints
-1️⃣ Create Coupon
+## API Endpoints
 
-POST /coupons
+### 1️⃣ Create Coupon
+
+`POST /coupons`
 
 Creates and stores a coupon in memory.
-Duplicate coupon codes are rejected.
+- Duplicate coupon codes are rejected.
 
-Sample Request
+**Sample Request**
 
+```json
 {
   "code": "WELCOME100",
   "description": "₹100 off for new users",
@@ -58,15 +54,17 @@ Sample Request
     "firstOrderOnly": true
   }
 }
+```
 
-2️⃣ Get Best Coupon
+### 2️⃣ Get Best Coupon
 
-POST /coupons/best
+`POST /coupons/best`
 
 Returns the best applicable coupon for a given user and cart.
 
-Sample Request
+**Sample Request**
 
+```json
 {
   "user": {
     "userId": "u1",
@@ -86,10 +84,11 @@ Sample Request
     ]
   }
 }
+```
 
+**Sample Response**
 
- Sample Response
-
+```json
 {
   "coupon": {
     "code": "ELEC10",
@@ -103,40 +102,40 @@ Sample Request
 }
 
 ## Eligibility Rules Supported
-User-based
 
-allowedUserTiers
-minLifetimeSpend
-minOrdersPlaced
-firstOrderOnly
-allowedCountries
+### User-based
+- `allowedUserTiers`
+- `minLifetimeSpend`
+- `minOrdersPlaced`
+- `firstOrderOnly`
+- `allowedCountries`
 
-Cart-based
-
-minCartValue
-minItemsCount
-applicableCategories
-
-excludedCategories
+### Cart-based
+- `minCartValue`
+- `minItemsCount`
+- `applicableCategories`
+- `excludedCategories`
 
 If a rule is not provided, it is ignored.
 
-How to Run
-Prerequisites
+## How to Run
 
-Python 3.10+
+### Prerequisites
+- Python 3.10+
 
-Setup
+### Setup
+```bash
 python -m venv venv
 venv\Scripts\activate
 pip install -r requirements.txt
+```
 
-Run Server
+### Run Server
+```bash
 uvicorn app.main:app --reload
-
+```
 
 Open:
-
 http://127.0.0.1:8000/docs
 
 ## Design Decisions
@@ -149,15 +148,12 @@ Eligibility rules evaluated independently with early failure
 
 Usage limit is checked logically but not persisted (redemption out of scope)
 
-AI Usage Note
+## AI Usage Note
 
 AI was used as a learning assistant to:
-
-Understand assignment requirements
-
-Improve logic structure
-
-Review and validate business logic
+- Understand assignment requirements
+- Improve logic structure
+- Review and validate business logic
 
 All implementation decisions and code were written and understood by the author.
 
